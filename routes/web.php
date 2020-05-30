@@ -1,5 +1,6 @@
 <?php
 
+use App\Support\Storage\Contracts\StorageInterface;
 use Illuminate\Support\Facades\Route;
 
 /*

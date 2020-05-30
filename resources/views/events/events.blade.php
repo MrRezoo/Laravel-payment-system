@@ -195,7 +195,7 @@
                                         <div class="product-hover">
                                             <ul>
                                                 <li>
-                                                    <button class="btn" type="button"><i class="icon-shopping-cart"></i></button>
+                                                    <a href="{{route('basket.add',$event->id)}}" class="btn" type="button"><i class="icon-shopping-cart"></i></a>
                                                 </li>
                                                 <li>
                                                     <button class="btn" type="button" data-toggle="modal" data-target="#exampleModalCenter"><i class="icon-eye"></i></button>
@@ -242,7 +242,7 @@
                                                                     </div>
                                                                 </fieldset>
                                                                 <div class="addcart-btn">
-                                                                    <button class="btn btn-primary" type="button">افزودن به سبد خرید</button>
+                                                                    <a href="{{route('basket.add',$event->id)}}" class="btn btn-primary" type="button">افزودن به سبد خرید</a>
                                                                     <button class="btn btn-primary" type="button">مشاهده جزئیات</button>
                                                                 </div>
                                                             </div>
