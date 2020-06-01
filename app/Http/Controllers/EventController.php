@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+use App\Support\Basket\Basket;
 use App\Support\Storage\Contracts\StorageInterface;
 
 use Illuminate\Http\Request;

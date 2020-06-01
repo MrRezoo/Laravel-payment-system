@@ -73,6 +73,7 @@ class Basket
     }
 
 
+
     public function itemCount()
     {
         return $this->storage->count();

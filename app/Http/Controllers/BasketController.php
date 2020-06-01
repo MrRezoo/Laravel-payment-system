@@ -21,6 +21,17 @@ class BasketController extends Controller
      * Display a listing of the resource.
      *
      * @param Event $event
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index()
+    {
+        $items = $this->basket->all();
+        return view('events.cart',compact('items'));
+    }
+
+
+    /**
+     * @param Event $event
      * @return \Illuminate\Http\RedirectResponse
      */
     public function add(Event $event)
