@@ -62,3 +62,7 @@ Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
     Route::get('two-factor/resent', 'TwoFactorController@resent')->name('auth.two.factor.resent');
 });
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

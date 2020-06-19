@@ -5,6 +5,7 @@ namespace App\Support\Basket;
 use App\Exceptions\QuantityExceededException;
 use App\Event;
 use App\Support\Storage\Contracts\StorageInterface;
+use Illuminate\Http\Request;
 
 
 class Basket
@@ -90,4 +91,5 @@ class Basket
     {
         return $this->storage->clear();
     }
+
 }

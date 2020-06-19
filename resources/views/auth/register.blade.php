@@ -95,7 +95,7 @@
                         <button class="btn btn-outline-primary-2x btn-block" type="submit">@lang('auth.register')</button>
                     </div>
                     <div class="col-sm-8">
-                        <a class="btn btn-outline-danger-2x btn-block" href="{{route('auth.login.form')}}" type="submit">@lang('auth.early register')</a>
+                        <a class="btn btn-outline-danger-2x btn-block" href="{{route('auth.login.form')}}">@lang('auth.early register')</a>
                     </div>
                 </div>
                 <div class="form-divider"></div>
