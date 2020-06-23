@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home');
-});
+})->name('home');
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('events', 'EventController@index')->name('events.index');
@@ -37,6 +37,7 @@ Route::get('basket/clear', function () {
 
 Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
     Route::get('register', 'RegisterController@showRegistrationForm')->name('auth.register.form');
+    Route::get('register/admin', 'RegisterController@showRegistrationForm')->name('auth.register.admin.form');
     Route::post('register', 'RegisterController@register')->name('auth.register');
     Route::get('login', 'LoginController@showLoginForm')->name('auth.login.form');
     Route::post('login', 'LoginController@login')->name('auth.login');
@@ -65,4 +66,4 @@ Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index');

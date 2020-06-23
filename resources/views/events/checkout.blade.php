@@ -81,9 +81,8 @@
                                         </label>
                                     </div>
                                     <select name='gateway' class="custom-select col-md-12 ">
-                                        <option value="eghtesadnovin">اقتصاد نوین</option>
-                                        <option value="maskan">مسکن</option>
-                                        <option value="mellat">ملت</option>
+                                        <option value="saman">سامان</option>
+                                        <option value="pasargad">پاسارگاد</option>
                                     </select>
                                     <p class='text-muted small'>
                                         در این روش شما میتونید درب منزل خود مبلغ را پرداخت نمایید

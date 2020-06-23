@@ -40,7 +40,6 @@ class SendEmail implements ShouldQueue
      */
     public function handle(Notification $notification)
     {
-         $notification->sendEmail($this->user, $this->mailable);
-        Log::info('job ran ' . Carbon::now()->toDateTimeString());
+        return $notification->sendEmail($this->user, $this->mailable);
     }
 }

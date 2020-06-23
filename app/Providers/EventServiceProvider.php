@@ -2,8 +2,11 @@
 
 namespace App\Providers;
 
+use App\Events\OrderRegistered;
 use App\Events\UserRegistered;
+use App\Listeners\SendOrderDetail;
 use App\Listeners\SendVerificationEmail;
+use App\Mail\OrderDetail;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -17,9 +20,9 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        UserRegistered::class => [
-            SendVerificationEmail::class,
-        ],
+        OrderRegistered::class => [
+            SendOrderDetail::class
+        ]
     ];
 
     /**

@@ -5,36 +5,23 @@ namespace App\Http\Controllers;
 use App\Event;
 use App\Exceptions\QuantityExceededException;
 use App\Support\Basket\Basket;
+use App\Support\Payment\Transaction;
 use Illuminate\Http\Request;
 
 class BasketController extends Controller
 {
 
     private $basket;
+    private $transaction;
 
-    public function __construct(Basket $basket)
+    public function __construct(Basket $basket, Transaction $transaction)
     {
-        $this->middleware('auth')->only(['checkoutForm','checkout']);
+        $this->middleware('auth')->only(['checkoutForm', 'checkout']);
         $this->basket = $basket;
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @param Event $event
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function index()
-    {
-        $items = $this->basket->all();
-        return view('events.cart', compact('items'));
+        $this->transaction = $transaction;
     }
 
 
-    /**
-     * @param Event $event
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function add(Event $event)
     {
         try {
@@ -48,30 +35,44 @@ class BasketController extends Controller
     }
 
 
+    public function index()
+    {
+        $items = $this->basket->all();
+        return view('events.cart', compact('items'));
+    }
+
+
+    public function checkoutForm()
+    {
+        $items = $this->basket->all();
+        return view('events.checkout', compact('items'));
+    }
+
+
     public function update(Request $request, Event $event)
     {
         $this->basket->update($event, $request->quantity);
         return back();
     }
 
-    public function checkoutForm()
-    {
-        $items = $this->basket->all();
-        return view('events.checkout',compact('items'));
-    }
-
     public function checkout(Request $request)
     {
         $this->validateForm($request);
-        dd($request->all());
+
+        $order =  $this->transaction->checkout();
+
+
+        return redirect()->route('home')->with('success', __('payment.your order has been registered', ['orderNum' => $order->id]));
     }
 
-    private function validateForm(Request $request)
+
+
+    private function validateForm($request)
     {
-            $request->validate([
-                'method' => ['required'],
-                 'gateway' => ['required_if:method,online']
-            ]);
+        $request->validate([
+            'method' => ['required'],
+            'gateway' => ['required_if:method,online']
+        ]);
     }
 
 

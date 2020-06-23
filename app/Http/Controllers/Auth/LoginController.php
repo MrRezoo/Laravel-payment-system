@@ -151,7 +151,7 @@ class LoginController extends Controller
         $request->validate([
             'email' => ['required', 'email', 'exists:users'],
             'password' => ['required'],
-            'recaptcha' => ['required', new Recaptcha]
+//            'recaptcha' => ['required', new Recaptcha]
         ],
             [
                 'recaptcha' => __('auth.recaptcha')

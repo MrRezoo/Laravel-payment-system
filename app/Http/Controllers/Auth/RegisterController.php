@@ -108,7 +108,7 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'phone_number' => ['required','numeric', 'digits:11', 'nullable'],
-            'recaptcha' => ['required', new Recaptcha]
+//            'recaptcha' => ['required', new Recaptcha]
         ],
             [
                 'recaptcha' => __('auth.recaptcha')

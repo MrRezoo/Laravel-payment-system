@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class Basket
 {
-    private StorageInterface $storage;
+    private $storage;
 
     public function __construct(StorageInterface $storage)
     {
@@ -50,6 +50,7 @@ class Basket
     {
         return $this->storage->get($event->id);
     }
+
     public function all()
     {
         $events = Event::find(array_keys($this->storage->all()));
@@ -74,7 +75,6 @@ class Basket
     }
 
 
-
     public function itemCount()
     {
         return $this->storage->count();
@@ -91,5 +91,4 @@ class Basket
     {
         return $this->storage->clear();
     }
-
 }
