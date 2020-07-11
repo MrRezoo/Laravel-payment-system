@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use niklasravnsborg\LaravelPdf\Facades\Pdf;
+use niklasravnsborg\LaravelPdf\PdfWrapper;
 
 class Order extends Model
 {
@@ -27,4 +29,32 @@ class Order extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function generateInvoice()
+    {
+        $pdf = \PDF::loadView('order.invoice', ['order' => $this]);
+
+        return $pdf->save($this->invoicePath());
+    }
+
+    public function paid()
+    {
+        return $this->payment->status;
+    }
+
+
+    public function downloadInvoice()
+    {
+
+        return Storage::disk('public')->download('invoices/' . $this->id . '.pdf');
+
+    }
+
+    public function invoicePath()
+    {
+        return storage_path('app/public/invoices/') . $this->id . '.pdf';
+    }
+
+
+
 }

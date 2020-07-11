@@ -17,6 +17,7 @@ class AddColumnToUsersTable extends Migration
             $table->string('last_name')->nullable()->after('name');
             $table->char('phone_number',20)->nullable()->after('password');
             $table->string('address')->nullable();
+            $table->tinyInteger('status')->default('1');
         });
     }
 

@@ -34,6 +34,7 @@
                                     <th scope="col">@lang('users.name')</th>
                                     <th scope="col">@lang('users.email')</th>
                                     <th scope="col">@lang('users.roles')</th>
+                                    <th scope="col">@lang('users.status')</th>
                                     <th scope="col">@lang('users.operation')</th>
                                 </tr>
                                 </thead>
@@ -45,9 +46,15 @@
                                         <td>
                                             @foreach ($user->roles as $role)
                                                 <span class="badge badge-secondary"> {{$role->persian_name}} </span>
-
                                         @endforeach
-                                        <td><a href="{{route('users.edit',$user->id)}}"> @lang('users.edit') </a></td>
+                                        <td>
+                                            <a href="{{route('users.edit',$user->id)}}"> @lang('users.edit') </a>
+                                            <a href="{{route('users.edit',$user->id)}}" style="color: red"> @lang('users.delete') </a>
+                                        </td>
+                                        <td>
+                                            <a href="{{route('users.edit',$user->id)}}"> @lang('users.edit') </a>
+                                            <a href="{{route('users.edit',$user->id)}}" style="color: red"> @lang('users.delete') </a>
+                                        </td>
                                     </tr>
                                 @empty
                                     <p>

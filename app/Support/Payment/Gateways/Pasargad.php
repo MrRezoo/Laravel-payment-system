@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Support\Payment\Gateways;
 
 use App\Order;
@@ -8,16 +7,17 @@ use Illuminate\Http\Request;
 
 class Pasargad implements GatewayInterface
 {
-
-    public function pay(Order $order)
+    public function pay(Order $order , int $amount)
     {
-        dd('pasargad pay');
+        dd('Pasargad Pay');
     }
+
 
     public function verify(Request $request)
     {
-        // TODO: Implement verify() method.
+        # code...
     }
+
 
     public function getName(): string
     {

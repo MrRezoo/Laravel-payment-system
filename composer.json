@@ -9,14 +9,17 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.5",
+        "cviebrock/eloquent-sluggable": "^7.0",
         "doctrine/dbal": "^2.10",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
+        "jeremeamia/superclosure": "^2.4",
         "laravel/framework": "^7.0",
         "laravel/socialite": "^4.3",
         "laravel/tinker": "^2.0",
-        "laravel/ui": "^2.0"
+        "laravel/ui": "^2.0",
+        "niklasravnsborg/laravel-pdf": "^4.0"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

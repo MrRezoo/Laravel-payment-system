@@ -15,7 +15,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+Auth::routes(['verify' => true]);
 
+Route::get('/home', 'HomeController@index');
 
 Route::get('/', function () {
     return view('home');
@@ -29,6 +31,11 @@ Route::post('basket/update/{event}', 'BasketController@update')->name('basket.up
 Route::get('basket/checkout', 'BasketController@checkoutForm')->name('basket.checkout.form');
 Route::post('basket/checkout', 'BasketController@checkout')->name('basket.checkout');
 Route::post('payment/{gateway}/callback', 'PaymentController@verify')->name('payment.verify');
+Route::post('coupon' , 'CouponsController@store')->name('coupons.store');
+Route::get('coupon/remove' , 'CouponsController@remove')->name('coupons.remove');
+Route::get('orders', 'OrdersController@index')->name('orders');
+Route::get('invoice/{order}' , 'InvoicesController@show')->name('invoice.show');
+Route::get('orders/pay/{order}', 'OrdersController@pay')->name('order.pay');
 
 Route::get('basket/clear', function () {
     resolve(StorageInterface::class)->clear();
@@ -63,7 +70,12 @@ Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
     Route::get('two-factor/resent', 'TwoFactorController@resent')->name('auth.two.factor.resent');
 });
 
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index');
+Route::group(['prefix' => 'panel'], function () {
+    Route::get('users', 'UserController@index')->name('users.index');
+    Route::get('users/{user}/edit', 'UserController@edit')->name('users.edit');
+    Route::post('users/{user}/edit', 'UserController@update')->name('users.update');
+    Route::get('roles', 'RoleController@index')->name('roles.index');
+    Route::post('roles', 'RoleController@store')->name('roles.store');
+    Route::get('roles/{role}/edit', 'RoleController@edit')->name('roles.edit');
+    Route::post('roles/{role}/edit', 'RoleController@update')->name('roles.update');
+});

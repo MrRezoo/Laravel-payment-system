@@ -26,6 +26,9 @@ $factory->define(Event::class, function (Faker $faker) {
         'price' => $faker->randomElement([
             150000 , 450000 , 252000 , 2521000 , 250000 , 150000 , 850000 , 650000, 450000 , 950000 , 410000 , 320000
         ]),
-        'stock'=> $faker->randomDigitNotNull
+        'stock'=> $faker->randomDigitNotNull,
+        'category_id' => $faker->randomElement([
+          1 , 2 , 3
+        ]),
     ];
 });

@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 
 class BasketController extends Controller
 {
-
     private $basket;
     private $transaction;
 
@@ -45,19 +44,20 @@ class BasketController extends Controller
     public function checkoutForm()
     {
         $items = $this->basket->all();
-        return view('events.checkout', compact('items'));
+        return view('events.checkout',compact('items'));
     }
 
 
-    public function update(Request $request, Event $event)
+    public function update(Request $request, Product $product)
     {
-        $this->basket->update($event, $request->quantity);
+        $this->basket->update($product, $request->quantity);
         return back();
     }
 
     public function checkout(Request $request)
     {
         $this->validateForm($request);
+
 
         $order =  $this->transaction->checkout();
 
@@ -74,6 +74,4 @@ class BasketController extends Controller
             'gateway' => ['required_if:method,online']
         ]);
     }
-
-
 }

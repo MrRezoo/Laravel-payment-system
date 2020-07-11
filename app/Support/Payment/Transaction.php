@@ -3,13 +3,15 @@
 namespace App\Support\Payment;
 
 use App\Events\OrderRegistered;
+use App\Invoice;
 use App\Order;
 use App\Payment;
+use App\Support\Cost\Contracts\CostInterface;
+use Illuminate\Http\Request;
 use App\Support\Basket\Basket;
 use App\Support\Payment\Gateways\GatewayInterface;
 use App\Support\Payment\Gateways\Pasargad;
 use App\Support\Payment\Gateways\Saman;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -19,11 +21,17 @@ class Transaction
 
     private $basket;
 
+    /**
+     * @var CostInterface
+     */
+    private $cost;
 
-    public function __construct(Request $request, Basket $basket)
+
+    public function __construct(Request $request, Basket $basket , CostInterface $cost)
     {
         $this->request = $request;
         $this->basket = $basket;
+        $this->cost = $cost;
     }
 
 
@@ -35,7 +43,12 @@ class Transaction
 
             $order = $this->makeOrder();
 
+            $order->generateInvoice();
+            dd('hi');
+
             $payment = $this->makePayment($order);
+
+
 
             DB::commit();
         } catch (\Exception $e) {
@@ -44,13 +57,21 @@ class Transaction
         }
 
         if ($payment->isOnline()) {
-            return $this->gatewayFactory()->pay($order);
+            return $this->gatewayFactory()->pay($order , $this->cost->getTotalCosts());
         }
 
         $this->completeOrder($order);
 
         return $order;
     }
+
+    public function pay(Order $order)
+    {
+
+        return $this->gatewayFactory()->pay($order, $order->payment->amount);
+
+    }
+
 
 
     public function verify()
@@ -63,9 +84,9 @@ class Transaction
 
         $this->completeOrder($result['order']);
 
-
         return true;
     }
+
 
 
     private function completeOrder($order)
@@ -76,6 +97,8 @@ class Transaction
         event(new OrderRegistered($order));
 
         $this->basket->clear();
+
+        session()->forget('coupon');
     }
 
 
@@ -102,14 +125,17 @@ class Transaction
 
     private function gatewayFactory()
     {
+
+        if (!$this->request->has('gateway')) return resolve(Saman::class);
+
         $gateway = [
             'saman' => Saman::class,
             'pasargad' => Pasargad::class
         ][$this->request->gateway];
-
         return resolve($gateway);
-    }
 
+
+    }
 
     private function makeOrder()
     {
@@ -130,7 +156,7 @@ class Transaction
         return Payment::create([
             'order_id' => $order->id,
             'method' => $this->request->method,
-            'amount' => $order->amount
+            'amount' => $this->cost->getTotalCosts()
         ]);
     }
 
@@ -143,4 +169,9 @@ class Transaction
 
         return $events;
     }
+
+
+
+
+
 }

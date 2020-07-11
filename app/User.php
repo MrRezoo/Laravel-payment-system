@@ -8,13 +8,16 @@ use App\Mail\VerificationEmail;
 use App\Services\Auth\MagicAuthentication;
 use App\Services\Auth\Traits\HasTwoFactor;
 use App\Services\Auth\Traits\MagicallyAuthenticate;
+use App\Services\Permission\Traits\HasPermissions;
+use App\Services\Permission\Traits\HasRoles;
+use App\Support\Discount\Coupon\Traits\Couponable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use Notifiable , MagicallyAuthenticate,HasTwoFactor;
+    use Notifiable, MagicallyAuthenticate, HasTwoFactor, Couponable, HasPermissions, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -22,9 +25,13 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name','last_name', 'email','phone_number', 'password','provider','provider_id','avatar','email_verified_at'
+        'name', 'last_name', 'email','status', 'phone_number', 'password', 'provider', 'provider_id', 'avatar', 'email_verified_at'
     ];
 
+
+    protected $attributes = [
+        'status' => 1,
+    ];
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -46,12 +53,18 @@ class User extends Authenticatable
 
     public function sendEmailVerificationNotification()
     {
-        SendEmail::dispatch($this,new VerificationEmail($this));
+        SendEmail::dispatch($this, new VerificationEmail($this));
     }
 
     public function sendPasswordResetNotification($token)
     {
-        SendEmail::dispatch($this,new ResetPassword($this,$token));
+        SendEmail::dispatch($this, new ResetPassword($this, $token));
 
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
 }
